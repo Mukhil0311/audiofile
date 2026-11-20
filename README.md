@@ -29,14 +29,132 @@ Step 7: Save and run the application.
 ```
 /*
 Program to play and control the audio file”.
-Developed by:
-Registeration Number :
+Developed by: MUKHIL S
+Registeration Number :  212225040263
 */
 ```
 
+### ACTIVITYMAIN.XML
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/audio_player_title"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:layout_margin="8dp"/>
+
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pause"
+            android:layout_margin="8dp"/>
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:layout_margin="8dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+```
+
+MAINACTIVITY.JAVA
+```java
+
+package com.example.audioplayer;
+
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private MediaPlayer mediaPlayer;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button btnPlay = findViewById(R.id.btnPlay);
+        Button btnPause = findViewById(R.id.btnPause);
+        Button btnStop = findViewById(R.id.btnStop);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.audio);
+
+        btnPlay.setOnClickListener(v -> {
+            if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                mediaPlayer.start();
+            }
+        });
+
+        btnPause.setOnClickListener(v -> {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+            }
+        });
+
+        btnStop.setOnClickListener(v -> {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+
+                try {
+                    mediaPlayer.prepare();
+                    mediaPlayer.seekTo(0);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error resetting media player", e);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+}
+
+```
 ## OUTPUT
 
 
+<img width="1920" height="1080" alt="Screenshot 2026-11-20 091338" src="https://github.com/user-attachments/assets/540c28fd-29d2-4252-ac12-ff0b978e76fe" />
 
 
 ## RESULT
